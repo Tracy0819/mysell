@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.mysell.mysell.Dao.mapper.ProductDaoMapper">
+<resultMap id="baseResultMap" type="com.mysell.mysell.Entity.ProductInfo">
+    <id column="product_id" property="productId" jdbcType="VARCHAR" />
+    <id column="product_name" property="productName" jdbcType="VARCHAR"/>
+    <id column="product_price" property="productPrice" jdbcType="DECIMAL"/>
+    <id column="product_stock" property="productStock" jdbcType="INTEGER"/>
+    <id column="product_category_type" property="productCategoryType" jdbcType="INTEGER"/>
+    <id column="product_description" property="productDescription" jdbcType="VARCHAR"/>
+    <id column="product_icon" property="productIcon" jdbcType="VARCHAR"/>
+    <id column="product_on_off_status" property="productOnOffStatus" jdbcType="INTEGER"/>
+</resultMap>
+<parameterMap id="baseParameterMap" type="com.mysell.mysell.Entity.ProductInfo">
+    <parameter property="productId" jdbcType="VARCHAR"/>
+    <parameter property="productName" jdbcType="VARCHAR"/>
+    <parameter property="productPrice" jdbcType="DECIMAL"/>
+    <parameter property="productStock" jdbcType="DECIMAL"/>
+    <parameter property="productCategoryType" jdbcType="INTEGER"/>
+    <parameter property="productDescription" jdbcType="VARCHAR"/>
+    <parameter property="productIcon" jdbcType="VARCHAR"/>
+    <parameter property="productOnOffStatus" jdbcType="INTEGER"/>
+</parameterMap>
+
+
+    <select id="findProductById" resultMap="baseResultMap" parameterType="java.lang.String">
+        select product_id,product_name,product_price,product_stock,product_category_type,
+        product_description,product_icon,product_on_off_status from product_info
+         where product_id = #{product_id,jdbcType=VARCHAR}
+    </select>
+    <insert id="save"  parameterMap="baseParameterMap" >
+        insert into product_info (product_id,product_name,product_price,product_stock,
+        product_category_type,product_description,product_icon,product_on_off_status
+        ) values (#{productId},#{productName},#{productPrice},#{productStock},#{productCategoryType},
+        #{productDescription},#{productIcon},#{productOnOffStatus});
+    </insert>
+    <delete id="deleteById" parameterType="java.lang.String" >
+        delete from product_info where product_id = #{product_id}
+    </delete>
+    <update id="updateStockById" >
+        update product_info
+        <set>
+            product_stock = #{arg1}
+        </set>
+        where  product_id = #{arg0}
+    </update>
+
+    <select id="findAll" resultMap="baseResultMap">
+        select * from product_info
+    </select>
+</mapper>
